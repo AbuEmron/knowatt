@@ -1,10 +1,17 @@
 {
-  "name": "knowatt",
-  "private": true,
-  "version": "1.0.0",
-  "description": "Knowatt — IBEW / electrical exam-prep PWA",
-  "dependencies": {
-    "stripe": "^16.12.0",
-    "@supabase/supabase-js": "^2.45.0"
-  }
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [{ "key": "Content-Type", "value": "application/manifest+json" }]
+    },
+    {
+      "source": "/.well-known/assetlinks.json",
+      "headers": [{ "key": "Content-Type", "value": "application/json" }]
+    }
+  ]
 }
