@@ -1,0 +1,10 @@
+{
+  "name": "knowatt",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Knowatt — IBEW / electrical exam-prep PWA",
+  "dependencies": {
+    "stripe": "^16.12.0",
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}
