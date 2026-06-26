@@ -1,25 +1,102 @@
-{
-  "name": "Knowatt \u2014 Electrical Exam Prep",
-  "short_name": "Knowatt",
-  "description": "IBEW & electrical licensing exam prep: NEC questions, calculators, aptitude practice.",
-  "start_url": "/app/",
-  "scope": "/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0b1f3a",
-  "theme_color": "#0b1f3a",
-  "icons": [
-    {
-      "src": "/assets/knowatt-icon-rounded.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/assets/knowatt-icon-rounded.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Upgrade to Knowatt Pro</title>
+<link rel="manifest" href="/manifest.webmanifest" />
+<meta name="theme-color" content="#0c1320" />
+<style>
+  :root{--panel:#0c1320;--steel:#161f2e;--line:#283448;--copper:#F5C518;--copper-bright:#FFD24A;--ink:#eef3f8;--mute:#8a98aa;--verified:#37d39a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--panel);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.6;padding:32px 18px;min-height:100vh}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:34px;font-weight:800;text-transform:uppercase;letter-spacing:.01em}
+  .sub{color:var(--mute);margin:10px 0 28px;max-width:520px}
+  .auth{font:600 13px Inter;margin-bottom:22px}
+  .auth button{background:transparent;color:var(--copper);border:1px solid var(--copper);border-radius:6px;padding:8px 14px;cursor:pointer}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:620px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--steel);border:1px solid var(--line);border-radius:10px;padding:24px;display:flex;flex-direction:column}
+  .card.best{border-color:var(--copper)}
+  .badge{align-self:flex-start;background:var(--copper);color:#10141a;font:700 11px Inter;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:999px;margin-bottom:10px}
+  .price{font-size:40px;font-weight:800;margin:6px 0}
+  .price small{font-size:15px;color:var(--mute);font-weight:500}
+  .save{color:var(--verified);font-size:13px;font-weight:600;margin-bottom:8px}
+  ul{list-style:none;margin:14px 0 20px;color:var(--mute);font-size:14.5px}
+  ul li{padding:5px 0 5px 22px;position:relative}
+  ul li::before{content:"\2713";position:absolute;left:0;color:var(--verified);font-weight:700}
+  .buy{margin-top:auto;background:var(--copper);color:#10141a;border:none;border-radius:8px;padding:14px;font:700 16px Inter;cursor:pointer}
+  .buy:hover{background:var(--copper-bright)}
+  .buy:disabled{opacity:.5;cursor:not-allowed}
+  .foot{color:var(--mute);font-size:12px;margin-top:22px}
+  a{color:var(--copper)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Knowatt <span style="color:var(--copper)">Pro</span></h1>
+  <p class="sub">Unlock the full question bank, every calculator, worked examples, the industrial tier, and progress that follows you across every device.</p>
+  <div class="auth" id="auth"></div>
+  <div class="grid">
+    <div class="card">
+      <div class="price">$9.99 <small>/ month</small></div>
+      <ul><li>Full NEC question bank</li><li>All calculators + worked examples</li><li>Cross-device sync</li><li>Cancel anytime</li></ul>
+      <button class="buy" data-price="price_1Tm0HCAEUpuHBUGljXlTcJci">Go Pro Monthly</button>
+    </div>
+    <div class="card best">
+      <span class="badge">Best value</span>
+      <div class="price">$59.99 <small>/ year</small></div>
+      <div class="save">Save 50% vs monthly</div>
+      <ul><li>Everything in monthly</li><li>Industrial tier (PLC / VFD / MCC)</li><li>Priority new content</li><li>Founding price locked</li></ul>
+      <button class="buy" data-price="price_1Tm0HDAEUpuHBUGlY4tFjTTO">Go Pro Annual</button>
+    </div>
+  </div>
+  <p class="foot">Secure checkout by Stripe. Knowatt is an independent study tool, not affiliated with the NFPA or IBEW. <a href="/app/">&larr; Back to app</a></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://lvouhkakhudbvxepcfif.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_N7-sgBOxu0zADFuDltZi6g_8ieLMCKL';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let user = null;
+const authEl = document.getElementById('auth');
+
+async function init(){
+  const { data:{ session } } = await sb.auth.getSession();
+  user = session ? session.user : null;
+  renderAuth();
 }
+function renderAuth(){
+  authEl.innerHTML = user
+    ? ('Signed in as <b>' + user.email + '</b> &middot; <button id="out">Sign out</button>')
+    : '<button id="in">Sign in to subscribe</button>';
+  const i = document.getElementById('in'); if (i) i.onclick = signIn;
+  const o = document.getElementById('out'); if (o) o.onclick = async ()=>{ await sb.auth.signOut(); location.reload(); };
+}
+async function signIn(){
+  const email = prompt('Enter your email — we will send a magic sign-in link:');
+  if (!email) return;
+  const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: location.href } });
+  alert(error ? ('Error: ' + error.message) : 'Check your email for your sign-in link, then come back to subscribe.');
+}
+document.querySelectorAll('.buy').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    if (!user) { alert('Please sign in first so we can link your subscription.'); return signIn(); }
+    btn.disabled = true; btn.textContent = 'Redirecting…';
+    try {
+      const r = await fetch('/api/create-checkout', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ priceId: btn.dataset.price, userId: user.id, email: user.email })
+      });
+      const j = await r.json();
+      if (j.url) location.href = j.url;
+      else { alert('Could not start checkout: ' + (j.error||'unknown')); btn.disabled=false; btn.textContent='Try again'; }
+    } catch(e){ alert('Network error'); btn.disabled=false; }
+  });
+});
+init();
+</script>
+</body>
+</html>

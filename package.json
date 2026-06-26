@@ -1,5 +1,6 @@
 {
   "name": "knowatt",
+  "private": true,
   "version": "1.0.0",
   "description": "Knowatt — IBEW / electrical exam-prep PWA",
   "dependencies": {
