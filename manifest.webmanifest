@@ -1,25 +1,16 @@
 {
-  "name": "Knowatt \u2014 Electrical Exam Prep",
-  "short_name": "Knowatt",
-  "description": "IBEW & electrical licensing exam prep: NEC questions, calculators, aptitude practice.",
+  "name": "Wattson — Master the Code. Understand the Why.",
+  "short_name": "Wattson",
+  "description": "NEC & electrical licensing exam prep for electricians: code questions, calculators, lessons, and the why behind the rules.",
   "start_url": "/app/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0b1f3a",
-  "theme_color": "#0b1f3a",
+  "background_color": "#04070d",
+  "theme_color": "#0c1320",
   "icons": [
-    {
-      "src": "/assets/knowatt-icon-rounded.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/assets/knowatt-icon-rounded.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "/assets/wattson-icon-rounded.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/wattson-icon-rounded.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/wattson-mark.svg", "type": "image/svg+xml", "purpose": "any" }
   ]
 }
